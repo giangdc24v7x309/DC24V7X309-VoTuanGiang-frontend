@@ -7,6 +7,7 @@ const routes = [
     name: "contactbook",
     component: ContactBook,
   },
+  
 ];
 
 const router = createRouter({
