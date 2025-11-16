@@ -5,7 +5,7 @@
         <p>{{ message }}</p>
     </div>
 </template>
- <script>
+<script>
 import ContactForm from "@/components/ContactForm.vue";
 import ContactService from "@/services/contact.service";
 export default {
@@ -26,6 +26,7 @@ export default {
             try {
                 this.contact = await ContactService.get(id);
             } catch (error) {
+                console.log(error);
                 console.log(error);
                 // Chuyển sang trang NotFound đồng thời giữ cho URL không đổi
                 this.$router.push({
