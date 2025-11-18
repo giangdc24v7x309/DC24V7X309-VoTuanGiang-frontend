@@ -39,7 +39,7 @@ export default {
 
 <style scoped>
 .page {
-    max-width: 600px;
+    max-width: 400px;
     margin: 20px auto;
     padding: 20px;
     background: white;
