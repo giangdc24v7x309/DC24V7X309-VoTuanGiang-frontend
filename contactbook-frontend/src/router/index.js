@@ -3,9 +3,7 @@ import ContactBook from "@/views/ContactBook.vue";
 
 const routes = [
   {
-    path: "/",
-    name: "contactbook",
-    component: ContactBook,
+    path: "/", name: "contactbook", component: ContactBook,
   },
   {
     path: "/:pathMatch(.*)*",
@@ -18,6 +16,12 @@ const routes = [
     component: () => import("@/views/ContactEdit.vue"),
     props: true // Truyền các biến trong $route.params vào làm props
   },
+  {
+  path: "/add",
+  name: "contact.add",
+  component: () => import("@/views/ContactAdd.vue"),
+},
+
 ];
 
 const router = createRouter({
