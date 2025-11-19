@@ -24,9 +24,34 @@
             <ErrorMessage name="phone" class="error-feedback" />
         </div>
 
-        <div class="form-group form-check">
-            <input name="favorite" type="checkbox" class="form-check-input" v-model="contactLocal.favorite" />
-            <label for="favorite" class="form-check-label">
+        <div class="form-group">
+            <label><strong>Sở thích</strong></label>
+            <div class="hobbies-group">
+                <label v-for="(hobby, index) in hobbies" :key="index" class="checkbox-item">
+                    <input type="checkbox" :id="'hobby-' + index" :value="hobby" v-model="contactLocal.hobbies" />
+                    {{ hobby }}
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label><strong>Tình trạng hôn nhân</strong></label>
+            <div class="marital-status">
+                <label>
+                    <input type="radio" name="maritalStatus" value="Độc thân" v-model="contactLocal.maritalStatus" />
+                    Độc thân
+                </label>
+                <label>
+                    <input type="radio" name="maritalStatus" value="Đã kết hôn" v-model="contactLocal.maritalStatus" />
+                    Đã kết hôn
+                </label>
+
+            </div>
+        </div>
+
+        <div class="favorite-check">
+            <label>
+                <input name="favorite" type="checkbox" v-model="contactLocal.favorite" />
                 <strong>Liên hệ yêu thích</strong>
             </label>
         </div>
@@ -48,15 +73,9 @@ import * as yup from "yup";
 import { Form, Field, ErrorMessage } from "vee-validate";
 
 export default {
-    components: {
-        Form,
-        Field,
-        ErrorMessage,
-    },
+    components: { Form, Field, ErrorMessage },
     emits: ["submit:contact", "delete:contact"],
-    props: {
-        contact: { type: Object, required: true },
-    },
+    props: { contact: { type: Object, required: true } },
     data() {
         const contactFormSchema = yup.object().shape({
             name: yup
@@ -71,12 +90,21 @@ export default {
             address: yup.string().max(100, "Địa chỉ tối đa 100 ký tự."),
             phone: yup
                 .string()
-                .matches(/((09|03|07|08|05)+([0-9]{8})\b)/g, "Số điện thoại không hợp lệ."),
+                .matches(
+                    /(09|03|07|08|05)+([0-9]{8})\b/,
+                    "Số điện thoại không hợp lệ."
+                ),
         });
 
         return {
-            contactLocal: { ...this.contact }, // sao chép để tránh sửa trực tiếp props
+            contactLocal: {
+                _id: this.contact._id,
+                ...this.contact,
+                hobbies: this.contact.hobbies || [],
+                maritalStatus: this.contact.maritalStatus || "",
+            },
             contactFormSchema,
+            hobbies: ["Đọc sách", "Du lịch", "Thể thao", "Âm nhạc"],
         };
     },
     methods: {
@@ -87,18 +115,21 @@ export default {
             this.$emit("delete:contact", this.contactLocal._id);
         },
         cancel() {
-            const reply = window.confirm("Bạn có thay đổi chưa lưu. Bạn có chắc muốn thoát?");
-            if (reply) {
-                this.$router.push({ name: "contactbook" });
-            }
+            const reply = window.confirm(
+                "Bạn có chắc muốn thoát mà không lưu không?"
+            );
+            if (reply) this.$router.push({ name: "contactbook" });
         },
     },
 };
 </script>
 
 <style scoped>
+@import "@/assets/form.css";
+
 .error-feedback {
     color: red;
     font-size: 0.9em;
 }
+
 </style>
