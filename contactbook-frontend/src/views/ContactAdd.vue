@@ -19,6 +19,8 @@ export default {
                 address: "",
                 phone: "",
                 favorite: false,
+                hobbies: [],
+                maritalStatus: "",
             },
         };
     },
