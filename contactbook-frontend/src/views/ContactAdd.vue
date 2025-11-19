@@ -19,8 +19,8 @@ export default {
                 address: "",
                 phone: "",
                 favorite: false,
-                hobbies: [],
-                maritalStatus: "",
+                hobbies: [],//Thêm sở thích
+                maritalStatus: "",//Thêm tình trạng hôn nhân
             },
         };
     },
